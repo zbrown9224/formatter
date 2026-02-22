@@ -6,21 +6,15 @@
 
 
     <style>
-      
-      	textarea {
-        	width: 40%;
-            height: 150px;
-          	font-family: monospace;
-          	font-size: 16px;
-      	}
 
+        
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
             font-family: monospace;
             font-size: xx-large;
-            margin: 0px;
+            margin: 20px;
         }
 
         #directionsBox {
@@ -36,7 +30,7 @@
             width: 175px;
             height: 60px;
             font-size: 24px;
-            margin-top: 0px;
+            margin-top: 10px;
             cursor: pointer;
             align-self: center;
         }
@@ -48,21 +42,16 @@
 <script>
     function formatDirections() {
         const input = document.getElementById("input").value;
-        const defaultkeywords = ["left", "right", "continue"]
-
-        const lines = input.split("\n");
-
-        const filtered = lines.filter(line =>
-            defaultkeywords.some(keyword => line.toLowerCase().includes(keyword))
-        );
+       
+        const cleaned = input
+            .split("\n")
+            .filter(line => !/^\s*\d+(\.\d+)?\s*(ft|mi|km|m)\.?\s*$/i.test(line))
+            .join("\n");
 
         
 
         // convert to uppercase and remove "TURN " prefix
-        document.getElementById("output").value = 
-            filtered.join("\n")
-                .toUpperCase()
-                .replace(/^TURN\s+/gm, '');
+        document.getElementById("output").value = cleaned;
 
         copyOutput();
         setStatus("Formatted and copied to clipboard!");
